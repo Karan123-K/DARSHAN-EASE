@@ -1,33 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const slotSchema = new mongoose.Schema({
-    user:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    temple: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Temple',
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
-    time:{
-        type:String,
-        required: true
-    },
-    capacity: {
-        type: Number,
-    },
-    available: {
-        type: Number,
-    }
+  temple: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Temple",
+    required: true
+  },
+  date: {
+    type: String,
+    required: true
+  },
+  time: {
+    type: String,
+    required: true
+  },
+  capacity: {
+    type: Number,
+    required: true
+  },
+  available: {
+    type: Number,
+    required: true
+  }
+},{timestamps:true});
 
-})
-
-const Slot = mongoose.model('Slot', slotSchema);
-
-module.exports = Slot;
+module.exports = mongoose.model("Slot",slotSchema);
