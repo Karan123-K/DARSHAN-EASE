@@ -1,4 +1,4 @@
-const Temple = require("../models/Temple");
+const Temple = require("../models/temple");
 
 exports.createTemple = async(req,res)=>{
 
