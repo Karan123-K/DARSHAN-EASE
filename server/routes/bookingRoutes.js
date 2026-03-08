@@ -15,11 +15,11 @@ router.post("/", protect, bookingController.createBooking);
 router.get("/user", protect, bookingController.getUserBookings);
 
 
-// ADMIN BOOKINGS
+// ADMIN/ORGANIZER BOOKINGS
 router.get(
  "/admin",
  protect,
- authorize("admin"),
+ authorize("admin", "organizer"),
  bookingController.getAllBookings
 );
 

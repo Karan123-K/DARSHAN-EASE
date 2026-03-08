@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const protect = require("../middleware/authMiddleware");
+const authorize = require("../middleware/roleMiddleware");
 
 const {
   createSlot,
@@ -17,7 +18,7 @@ const {
    CREATE SLOT
 ================================ */
 
-router.post("/", protect, createSlot);
+router.post("/", protect, authorize("admin", "organizer"), createSlot);
 
 
 
@@ -25,7 +26,7 @@ router.post("/", protect, createSlot);
    GET ALL SLOTS (ADMIN DASHBOARD)
 ================================ */
 
-router.get("/", protect, getSlots);
+router.get("/", protect, authorize("admin", "organizer"), getSlots);
 
 
 
@@ -41,7 +42,7 @@ router.get("/:templeId", getSlotsByTemple);
    UPDATE SLOT
 ================================ */
 
-router.put("/:id", protect, updateSlot);
+router.put("/:id", protect, authorize("admin", "organizer"), updateSlot);
 
 
 
@@ -49,7 +50,7 @@ router.put("/:id", protect, updateSlot);
    DELETE SLOT
 ================================ */
 
-router.delete("/:id", protect, deleteSlot);
+router.delete("/:id", protect, authorize("admin", "organizer"), deleteSlot);
 
 
 

@@ -12,7 +12,7 @@ exports.register = async (req,res)=>{
 
  try{
 
-  const {name,email,password} = req.body;
+  const {name,email,password,role} = req.body;
 
   // VALIDATION
   if(!name || !email || !password){
@@ -37,7 +37,8 @@ exports.register = async (req,res)=>{
   const user = await User.create({
    name,
    email,
-   password:hashedPassword
+   password:hashedPassword,
+   role: role || "user"
   });
 
   // GENERATE TOKEN
@@ -48,7 +49,8 @@ exports.register = async (req,res)=>{
    user:{
     id:user._id,
     name:user.name,
-    email:user.email
+    email:user.email,
+    role:user.role
    }
   });
 
@@ -106,7 +108,8 @@ exports.login = async (req,res)=>{
    user:{
     id:user._id,
     name:user.name,
-    email:user.email
+    email:user.email,
+    role:user.role
    }
   });
 

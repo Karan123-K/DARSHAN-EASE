@@ -12,8 +12,28 @@ const templeSchema = new mongoose.Schema({
   required:true
  },
 
+ coverImage:{
+  type : String
+ },
+
  description:{
   type:String
+ },
+
+ organizerId:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  required:true
+ },
+
+ slotsAvailable:{
+  type: Number,
+  default: 0
+ },
+
+ numberOfSeats:{
+  type: Number,
+  default: 0
  }
 
 },{timestamps:true});

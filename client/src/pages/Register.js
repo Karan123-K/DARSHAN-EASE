@@ -1,80 +1,87 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import API from "../api/axios";
 
 function Register(){
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
- const [name,setName] = useState("");
- const [email,setEmail] = useState("");
- const [password,setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
 
- const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  e.preventDefault();
+    try{
+      const res = await API.post("/auth/register",{
+        name,
+        email,
+        password,
+        role
+      });
 
-  try{
+      login(res.data.token);
 
-   const res = await API.post("/auth/register",{
-    name,
-    email,
-    password
-   });
+      alert("User account created successfully");
 
-   localStorage.setItem("token",res.data.token);
+      navigate("/temples");
 
-   alert("Registered successfully");
+    }catch(error){
+      console.log(error.response?.data);
+      alert("Registration failed");
+    }
+  };
 
-   window.location.href="/temples";
+  return(
+    <div className="container mt-5" style={{maxWidth:"400px"}}>
+      <h2>User Registration</h2>
+      <p className="text-muted">Create your account to book temple darshan</p>
+      <form onSubmit={handleSubmit}>
+        <input
+          className="form-control mb-2"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e)=>setName(e.target.value)}
+          required
+        />
 
-  }catch(error){
+        <input
+          className="form-control mb-2"
+          type="email"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+          required
+        />
 
-   console.log(error.response?.data);
+        <input
+          type="password"
+          className="form-control mb-2"
+          placeholder="Password"
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
+          required
+        />
 
-   alert("Registration failed");
+        <select
+          className="form-select mb-3"
+          value={role}
+          onChange={(e)=>setRole(e.target.value)}
+        >
+          <option value="user">Register as User</option>
+          <option value="organizer">Register as Organizer</option>
+          <option value="admin">Register as Admin</option>
+        </select>
 
-  }
-
- };
-
- return(
-
-  <div className="container mt-5">
-
-   <h2>Register</h2>
-
-   <form onSubmit={handleSubmit}>
-
-    <input
-     className="form-control mb-2"
-     placeholder="Name"
-     onChange={(e)=>setName(e.target.value)}
-     required
-    />
-
-    <input
-     className="form-control mb-2"
-     placeholder="Email"
-     onChange={(e)=>setEmail(e.target.value)}
-     required
-    />
-
-    <input
-     type="password"
-     className="form-control mb-2"
-     placeholder="Password"
-     onChange={(e)=>setPassword(e.target.value)}
-     required
-    />
-
-    <button className="btn btn-primary">
-     Register
-    </button>
-
-   </form>
-
-  </div>
-
- );
-
+        <button className="btn btn-primary w-100">
+          Create Account
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default Register;

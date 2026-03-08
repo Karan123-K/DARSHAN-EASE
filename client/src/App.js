@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -15,104 +16,154 @@ import AdminSlots from "./pages/AdminSlots";
 import AdminTemples from "./pages/AdminTemples";
 import AdminBookings from "./pages/AdminBookings";
 import AdminStats from "./pages/AdminStats";
+import Organizer from "./pages/Organizer";
 
 function App() {
 
   return (
 
-    <BrowserRouter>
+    <AuthProvider>
 
-      <Navbar />
+      <BrowserRouter>
 
-      <Routes>
+        <Navbar />
 
-        {/* Public Pages */}
+        <Routes>
 
-        <Route path="/" element={<Home />} />
+          {/* Public Pages */}
 
-        <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
 
-        <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
 
-        <Route path="/temples" element={<Temples />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route path="/temple/:id" element={<TempleDetails />} />
+          <Route path="/temples" element={<Temples />} />
 
-
-        {/* User Dashboard */}
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard/>
-            </ProtectedRoute>
-          }
-        />
+          <Route path="/temple/:id" element={<TempleDetails />} />
 
 
-        {/* Admin Dashboard */}
+          {/* User Dashboard */}
 
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard/>
-            </ProtectedRoute>
-          }
-        />
-
-
-        {/* Admin Manage Temples */}
-
-        <Route
-          path="/admin/temples"
-          element={
-            <ProtectedRoute>
-              <AdminTemples/>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard/>
+              </ProtectedRoute>
+            }
+          />
 
 
-        {/* Admin Manage Slots */}
+          {/* Admin/Organizer Dashboard */}
 
-        <Route
-          path="/admin/slots"
-          element={
-            <ProtectedRoute>
-              <AdminSlots/>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminDashboard/>
+              </ProtectedRoute>
+            }
+          />
 
-
-        {/* Admin View Bookings */}
-
-        <Route
-          path="/admin/bookings"
-          element={
-            <ProtectedRoute>
-              <AdminBookings/>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/organizer"
+            element={
+              <ProtectedRoute requiredRole="organizer">
+                <Organizer/>
+              </ProtectedRoute>
+            }
+          />
 
 
-        {/* Admin Booking Statistics */}
+          {/* Organizer Manage Slots */}
 
-        <Route
-          path="/admin/stats"
-          element={
-            <ProtectedRoute>
-              <AdminStats/>
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/organizer/slots"
+            element={
+              <ProtectedRoute requiredRole="organizer">
+                <AdminSlots/>
+              </ProtectedRoute>
+            }
+          />
 
-      </Routes>
 
-    </BrowserRouter>
+          {/* Organizer View Bookings */}
+
+          <Route
+            path="/organizer/bookings"
+            element={
+              <ProtectedRoute requiredRole="organizer">
+                <AdminBookings/>
+              </ProtectedRoute>
+            }
+          />
+
+
+          {/* Organizer Booking Statistics */}
+
+          <Route
+            path="/organizer/stats"
+            element={
+              <ProtectedRoute requiredRole="organizer">
+                <AdminStats/>
+              </ProtectedRoute>
+            }
+          />
+
+
+          {/* Admin Manage Temples */}
+
+          <Route
+            path="/admin/temples"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminTemples/>
+              </ProtectedRoute>
+            }
+          />
+
+
+          {/* Admin Manage Slots */}
+
+          <Route
+            path="/admin/slots"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminSlots/>
+              </ProtectedRoute>
+            }
+          />
+
+
+          {/* Admin View Bookings */}
+
+          <Route
+            path="/admin/bookings"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminBookings/>
+              </ProtectedRoute>
+            }
+          />
+
+
+          {/* Admin Booking Statistics */}
+
+          <Route
+            path="/admin/stats"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminStats/>
+              </ProtectedRoute>
+            }
+          />
+
+        </Routes>
+
+      </BrowserRouter>
+
+    </AuthProvider>
 
   );
 

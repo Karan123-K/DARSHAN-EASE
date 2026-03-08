@@ -93,7 +93,7 @@ function AdminSlots() {
 
     <div className="container mt-4">
 
-      <h2>Admin Slot Manager</h2>
+      <h2>Slot Manager</h2>
 
 
       {/* SELECT TEMPLE */}

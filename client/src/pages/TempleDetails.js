@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import API from "../api/axios";
 
 function TempleDetails() {
@@ -12,7 +12,7 @@ function TempleDetails() {
 
 
   // Fetch slots
-  const fetchSlots = async () => {
+  const fetchSlots = useCallback(async () => {
 
     try {
 
@@ -25,12 +25,12 @@ function TempleDetails() {
 
     }
 
-  };
+  }, [id]);
 
 
   useEffect(() => {
     fetchSlots();
-  }, [id]);
+  }, [fetchSlots]);
 
 
   // Booking function

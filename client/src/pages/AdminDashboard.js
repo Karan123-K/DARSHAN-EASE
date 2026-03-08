@@ -23,6 +23,7 @@ function AdminDashboard() {
   }catch(error){
 
    console.log(error);
+   alert("Failed to load dashboard data. Please make sure you're logged in as an admin.");
 
   }
 
