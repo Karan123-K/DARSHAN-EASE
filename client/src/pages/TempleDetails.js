@@ -53,7 +53,7 @@ function TempleDetails() {
     } catch (error) {
 
       console.log(error);
-      setMessage("❌ Booking failed");
+      setMessage("❌ Booking failed Login as user and try again.");
 
     }
 
